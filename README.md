@@ -2,6 +2,7 @@
 
 <img align="right" width="192" height="192" alt="Optimus avatar: Transformer's head shaped as a letter “O”" src="./assets/logo.png">
 
+[![CI](https://github.com/savonarola/optimus/actions/workflows/elixir.yml/badge.svg)](https://github.com/savonarola/optimus/actions/workflows/elixir.yml)
 [![Coverage Status](https://coveralls.io/repos/github/funbox/optimus/badge.svg?branch=master)](https://coveralls.io/github/savonarola/optimus?branch=master)
 [![Module Version](https://img.shields.io/hexpm/v/optimus.svg)](https://hex.pm/packages/optimus)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/optimus/)

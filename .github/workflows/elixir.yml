@@ -64,29 +64,23 @@ jobs:
       run: mix deps.get
     - name: Run tests
       run: mix test
-    - name: Run dialyzer
-      run: mix dialyzer
 
-  send_coveralls:
-    name: Send coveralls stats
+  code_analysis:
+    name: Run code analysis
     runs-on: ubuntu-22.04
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MIX_ENV: test
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.2' # Define the elixir version [required]
-        otp-version: '26.0' # Define the OTP version [required]
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: coveralls-${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        elixir-version: '1.14.3' # Define the elixir version [required]
+        otp-version: '25.3' # Define the OTP version [required]
     - name: Install dependencies
       run: mix deps.get
+    - name: Analyze types
+      run: mix dialyzer
     - name: Send coveralls
       run: mix coveralls.github
-

@@ -22,8 +22,7 @@ defmodule Optimus.Mixfile do
       ],
       dialyzer: [
         plt_add_deps: true,
-        plt_add_apps: [:ssl],
-        flags: ["-Werror_handling", "-Wrace_conditions"]
+        plt_add_apps: [:ssl]
       ],
       package: package()
     ]
@@ -36,7 +35,7 @@ defmodule Optimus.Mixfile do
   defp deps do
     [
       {:excoveralls, "~> 0.5", only: :test},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.23", only: :dev}
     ]
   end

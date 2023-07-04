@@ -8,7 +8,9 @@ defmodule Optimus.Option do
     :multiple,
     :required,
     :default,
-    :parser
+    :parser,
+    :global,
+    :hide
   ]
 
   def new(spec) do
@@ -27,9 +29,8 @@ defmodule Optimus.Option do
 
             {:error, reason} ->
               {:error,
-               "invalid value #{inspect(raw_value)} for #{Optimus.Format.format_in_error(option)} option: #{
-                 reason
-               }", rest}
+               "invalid value #{inspect(raw_value)} for #{Optimus.Format.format_in_error(option)} option: #{reason}",
+               rest}
           end
         else
           {:error, "multiple occurrences of option #{Optimus.Format.format_in_error(option)}",

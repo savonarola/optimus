@@ -56,6 +56,8 @@ defmodule Optimus do
           | {:long, String.t()}
           | {:help, String.t()}
           | {:multiple, boolean}
+          | {:global, boolean}
+          | {:hide, boolean}
   @type flag_spec_item :: {name :: atom, [flag_spec_param]}
 
   @type option_spec_param ::
@@ -67,6 +69,8 @@ defmodule Optimus do
           | {:required, boolean}
           | {:parser, parser}
           | {:default, any}
+          | {:global, boolean}
+          | {:hide, boolean}
   @type option_spec_item :: {name :: atom, [option_spec_param]}
 
   @type spec_item ::

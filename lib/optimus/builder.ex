@@ -87,17 +87,17 @@ defmodule Optimus.Builder do
     with {:ok, arg} <- module.new(arg_spec), do: build_specs_(module, other, [arg | parsed])
   end
 
-  defp build_subcommands(nil, _gloal_props), do: {:ok, []}
+  defp build_subcommands(nil, _global_props), do: {:ok, []}
 
-  defp build_subcommands(subcommands, gloal_props) do
+  defp build_subcommands(subcommands, global_props) do
     if Keyword.keyword?(subcommands) do
-      build_subcommands_(subcommands, gloal_props, [])
+      build_subcommands_(subcommands, global_props, [])
     else
       {:error, "subcommand specs are expected to be a Keyword list"}
     end
   end
 
-  defp build_subcommands_([], _gloal_props, parsed), do: {:ok, Enum.reverse(parsed)}
+  defp build_subcommands_([], _global_props, parsed), do: {:ok, Enum.reverse(parsed)}
 
   defp build_subcommands_([{subcommand_name, props} | other], global_props, parsed) do
     case build_(props, global_props) do
@@ -179,7 +179,7 @@ defmodule Optimus.Builder do
 
   defp merge_globals_into_subcommand(
          subcommand,
-         %{flags: global_flags, options: global_options} = _gloal_props
+         %{flags: global_flags, options: global_options} = _global_props
        ) do
     subcommand
     |> Map.update(:flags, [], fn flags -> flags ++ global_flags end)

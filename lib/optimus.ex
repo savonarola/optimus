@@ -88,7 +88,21 @@ defmodule Optimus do
   @type spec :: [spec_item]
 
   @type error :: String.t()
-  @opaque t :: %Optimus{}
+
+  @type t :: %Optimus{
+          name: String.t(),
+          description: String.t(),
+          version: String.t(),
+          author: String.t(),
+          about: String.t(),
+          allow_unknown_args: boolean,
+          parse_double_dash: boolean,
+          args: [arg_spec_item],
+          flags: [flag_spec_item],
+          options: [option_spec_item],
+          subcommands: [{atom, spec}],
+          subcommand: {atom, spec}
+        }
 
   @spec new(spec) :: {:ok, t} | {:error, [error]}
   def new(props) do
@@ -169,6 +183,7 @@ defmodule Optimus do
     end
   end
 
+  @spec help(t) :: String.t()
   def help(optimus) do
     optimus
     |> Optimus.Help.help([], columns())
@@ -212,12 +227,14 @@ defmodule Optimus do
     end
   end
 
+  @spec fetch_subcommand(t, subcommand_path) :: {t, subcommand_path}
   def fetch_subcommand(optimus, subcommand_path),
     do: fetch_subcommand(optimus, subcommand_path, [optimus.name])
 
-  def fetch_subcommand(optimus, [], subcommand_name), do: {optimus, Enum.reverse(subcommand_name)}
+  defp fetch_subcommand(optimus, [], subcommand_name),
+    do: {optimus, Enum.reverse(subcommand_name)}
 
-  def fetch_subcommand(optimus, [subcommand_id | subcommand_path], subcommand_name) do
+  defp fetch_subcommand(optimus, [subcommand_id | subcommand_path], subcommand_name) do
     subcommand = Enum.find(optimus.subcommands, &(subcommand_id == &1.subcommand))
     fetch_subcommand(subcommand, subcommand_path, [subcommand.name | subcommand_name])
   end

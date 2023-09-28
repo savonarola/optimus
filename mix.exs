@@ -9,8 +9,6 @@ defmodule Optimus.Mixfile do
       app: :optimus,
       version: @version,
       elixir: "~> 1.12",
-      build_embedded: Mix.env() == :prod,
-      start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: docs(),
       test_coverage: [tool: ExCoveralls],
@@ -20,16 +18,12 @@ defmodule Optimus.Mixfile do
         "coveralls.post": :test,
         "coveralls.html": :test
       ],
-      dialyzer: [
-        plt_add_deps: true,
-        plt_add_apps: [:ssl]
-      ],
       package: package()
     ]
   end
 
   def application do
-    [applications: [:logger]]
+    [extra_applications: [:logger]]
   end
 
   defp deps do

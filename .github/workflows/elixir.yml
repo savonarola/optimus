@@ -39,13 +39,13 @@ jobs:
 
           # Elixir 1.15
 
-          - elixir: 1.15.2
+          - elixir: 1.15.6
             otp_release: 24.3
 
-          - elixir: 1.15.2
+          - elixir: 1.15.6
             otp_release: 25.3
 
-          - elixir: 1.15.2
+          - elixir: 1.15.6
             otp_release: 26.0
 
     steps:
@@ -76,8 +76,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.14.3' # Define the elixir version [required]
-        otp-version: '25.3' # Define the OTP version [required]
+        elixir-version: '1.15.6' # Define the elixir version [required]
+        otp-version: '26.0' # Define the OTP version [required]
     - name: Install dependencies
       run: mix deps.get
     - name: Analyze types

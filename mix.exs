@@ -28,9 +28,11 @@ defmodule Optimus.Mixfile do
 
   defp deps do
     [
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.18", only: :test},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.23", only: :dev}
+      {:ex_doc, "~> 0.37", only: :dev},
+      ## For excoveralls
+      {:castore, "~> 1.0", only: [:dev, :test]}
     ]
   end
 

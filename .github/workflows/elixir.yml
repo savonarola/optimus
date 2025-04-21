@@ -11,7 +11,7 @@ jobs:
     name: Build and test
     runs-on: ubuntu-22.04
 
-    # https://github.com/elixir-lang/elixir/blob/master/lib/elixir/pages/compatibility-and-deprecations.md
+    # https://github.com/elixir-lang/elixir/blob/main/lib/elixir/pages/references/compatibility-and-deprecations.md
     strategy:
       matrix:
         include:
@@ -32,21 +32,51 @@ jobs:
           # Elixir 1.14
 
           - elixir: 1.14.5
-            otp_release: 24.2.1
+            otp_release: 24.3
 
           - elixir: 1.14.5
             otp_release: 25.3
 
+          - elixir: 1.14.5
+            otp_release: 26.2
+
           # Elixir 1.15
 
-          - elixir: 1.15.6
+          - elixir: 1.15.8
             otp_release: 24.3
 
-          - elixir: 1.15.6
+          - elixir: 1.15.8
             otp_release: 25.3
 
-          - elixir: 1.15.6
-            otp_release: 26.0
+          - elixir: 1.15.8
+            otp_release: 26.2
+
+          # Elixir 1.16
+
+          - elixir: 1.16.3
+            otp_release: 24.3
+
+          - elixir: 1.16.3
+            otp_release: 25.3
+
+          - elixir: 1.16.3
+            otp_release: 26.2
+
+          # Elixir 1.17
+
+          - elixir: 1.17.3
+            otp_release: 25.3
+
+          - elixir: 1.17.3
+            otp_release: 26.2
+
+          - elixir: 1.17.3
+            otp_release: 27.1
+
+          # Elixir 1.18
+
+          - elixir: 1.18.3
+            otp_release: 27.3
 
     steps:
     - uses: actions/checkout@v2
@@ -76,8 +106,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.6' # Define the elixir version [required]
-        otp-version: '26.0' # Define the OTP version [required]
+        elixir-version: '1.18.3' # Define the elixir version [required]
+        otp-version: '27.3' # Define the OTP version [required]
     - name: Install dependencies
       run: mix deps.get
     - name: Analyze types

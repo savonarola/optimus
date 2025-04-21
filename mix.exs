@@ -54,7 +54,7 @@ defmodule Optimus.Mixfile do
         "README.md": [title: "Overview"]
       ],
       main: "readme",
-      assets: "assets",
+      assets:  %{"assets" => "assets"},
       logo: "assets/logo.png",
       source_url: @source_url,
       source_ref: "#{@version}",

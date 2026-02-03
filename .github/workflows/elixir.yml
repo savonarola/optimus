@@ -84,7 +84,7 @@ jobs:
             otp_release: 27.3
 
           - elixir: 1.19.0
-            otp_release: 28.0
+            otp_release: 28.1
 
 
     steps:
@@ -94,11 +94,6 @@ jobs:
       with:
         elixir-version: ${{ matrix.elixir }}
         otp-version: ${{ matrix.otp_release }}
-    - name: Restore dependencies cache
-      uses: actions/cache@v5
-      with:
-        path: deps
-        key: cache-v3-${{ matrix.elixir }}-${{ matrix.otp_release }}-${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
     - name: Install dependencies
       run: mix deps.get
     - name: Run tests
@@ -115,8 +110,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.18.3' # Define the elixir version [required]
-        otp-version: '27.3' # Define the OTP version [required]
+        elixir-version: '1.19.0' # Define the elixir version [required]
+        otp-version: '28.1' # Define the OTP version [required]
     - name: Install dependencies
       run: mix deps.get
     - name: Analyze types

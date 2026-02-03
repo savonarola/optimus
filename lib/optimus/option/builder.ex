@@ -9,7 +9,7 @@ defmodule Optimus.Option.Builder do
     end
   end
 
-  defp build_from_props(option, props) do
+  defp build_from_props(%Option{} = option, props) do
     with :ok <- validate_keyword_list(option.name, props),
          {:ok, value_name} <- build_value_name(props, option.name),
          {:ok, short} <- build_short(props),
@@ -22,7 +22,7 @@ defmodule Optimus.Option.Builder do
          {:ok, global} <- build_global(props),
          {:ok, hide} <- build_hide(props),
          {:ok, option} <-
-           validate(%{
+           validate(%Option{
              option
              | value_name: value_name,
                short: short,

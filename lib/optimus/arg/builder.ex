@@ -9,14 +9,15 @@ defmodule Optimus.Arg.Builder do
     end
   end
 
-  defp build_from_props(arg, props) do
+  defp build_from_props(%Arg{} = arg, props) do
     with :ok <- validate_keyword_list(arg.name, props),
          {:ok, value_name} <- build_value_name(props, arg.name),
          {:ok, help} <- build_help(props),
          {:ok, required} <- build_required(props),
          {:ok, parser} <- build_parser(props),
          do:
-           {:ok, %{arg | value_name: value_name, help: help, required: required, parser: parser}}
+           {:ok,
+            %Arg{arg | value_name: value_name, help: help, required: required, parser: parser}}
   end
 
   defp validate_keyword_list(name, list) do

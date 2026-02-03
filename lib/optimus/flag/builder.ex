@@ -9,7 +9,7 @@ defmodule Optimus.Flag.Builder do
     end
   end
 
-  defp build_from_props(flag, props) do
+  defp build_from_props(%Flag{} = flag, props) do
     with :ok <- validate_keyword_list(flag.name, props),
          {:ok, short} <- build_short(props),
          {:ok, long} <- build_long(props),
@@ -18,7 +18,7 @@ defmodule Optimus.Flag.Builder do
          {:ok, global} <- build_global(props),
          {:ok, hide} <- build_hide(props),
          {:ok, flag} <-
-           validate(%{
+           validate(%Flag{
              flag
              | short: short,
                long: long,

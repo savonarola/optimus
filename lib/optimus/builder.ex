@@ -108,15 +108,15 @@ defmodule Optimus.Builder do
   defp build_subcommands_([{subcommand_name, props} | other], global_props, parsed) do
     case build_(props, global_props) do
       {:ok, subcommand} ->
-        subcommand = merge_globals_into_subcommand(subcommand, global_props)
+        %Optimus{} = subcommand = merge_globals_into_subcommand(subcommand, global_props)
 
         subcommand_with_name =
           case subcommand.name do
             nil ->
-              %{subcommand | subcommand: subcommand_name, name: to_string(subcommand_name)}
+              %Optimus{subcommand | subcommand: subcommand_name, name: to_string(subcommand_name)}
 
             _ ->
-              %{subcommand | subcommand: subcommand_name}
+              %Optimus{subcommand | subcommand: subcommand_name}
           end
 
         build_subcommands_(other, global_props, [subcommand_with_name | parsed])
@@ -178,10 +178,13 @@ defmodule Optimus.Builder do
     # Keep only global flags
     |> Enum.filter(& &1.global)
     # Hide global props on subcommands
-    |> Enum.map(&%{&1 | hide: true})
+    |> Enum.map(&hide_global_prop/1)
     # Add previous defined global flags
     |> Kernel.++(Map.get(global_props, type, []))
   end
+
+  defp hide_global_prop(%Optimus.Flag{} = flag), do: %Optimus.Flag{flag | hide: true}
+  defp hide_global_prop(%Optimus.Option{} = option), do: %Optimus.Option{option | hide: true}
 
   defp merge_globals_into_subcommand(
          subcommand,

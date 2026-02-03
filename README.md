@@ -26,10 +26,12 @@ returned them.
 
 Add `optimus` to your list of dependencies in `mix.exs`:
 
+
+<!-- Do not update manually, update with bump2version -->
 ```elixir
 def deps do
   [
-    {:optimus, "~> 0.2"}
+    {:optimus, "~> 0.6.0"}
   ]
 end
 ```

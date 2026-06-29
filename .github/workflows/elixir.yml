@@ -9,122 +9,131 @@ on:
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
-    # https://github.com/elixir-lang/elixir/blob/master/lib/elixir/pages/compatibility-and-deprecations.md
+    # https://github.com/elixir-lang/elixir/blob/main/lib/elixir/pages/references/compatibility-and-deprecations.md
     strategy:
       matrix:
         include:
 
-          # Elixir 1.7
-
-          - elixir: 1.7.4
-            otp_release: 19.3
-
-          - elixir: 1.7.4
-            otp_release: 20.3
-
-          - elixir: 1.7.4
-            otp_release: 21.0
-
-          - elixir: 1.7.4
-            otp_release: 22.0
-
-          # Elixir 1.8
-
-          - elixir: 1.8.2
-            otp_release: 20.3
-
-          - elixir: 1.8.2
-            otp_release: 21.0
-
-          - elixir: 1.8.2
-            otp_release: 22.0
-
-          # Elixir 1.9
-
-          - elixir: 1.9.0
-            otp_release: 20.3
-
-          - elixir: 1.9.0
-            otp_release: 21.0
-
-          - elixir: 1.9.0
-            otp_release: 22.0
-
-          # Elixir 1.10
-
-          - elixir: 1.10.0
-            otp_release: 21.0
-
-          - elixir: 1.10.0
-            otp_release: 22.0
-
-          - elixir: 1.10.3
-            otp_release: 23.0
-
-          # Elixir 1.11
-
-          - elixir: 1.11.0
-            otp_release: 21.0
-
-          - elixir: 1.11.0
-            otp_release: 22.0
-
-          - elixir: 1.11.0
-            otp_release: 23.0
-
-          - elixir: 1.11.4
-            otp_release: 24.0
-
           # Elixir 1.12
 
-          - elixir: 1.12.0
-            otp_release: 22.0
+          - elixir: 1.12.3
+            otp_release: 24.3
 
-          - elixir: 1.12.0
-            otp_release: 23.0
+          # Elixir 1.13
 
-          - elixir: 1.12.0
-            otp_release: 24.0
+          - elixir: 1.13.4
+            otp_release: 24.3
+
+          - elixir: 1.13.4
+            otp_release: 25.3
+
+          # Elixir 1.14
+
+          - elixir: 1.14.5
+            otp_release: 24.3
+
+          - elixir: 1.14.5
+            otp_release: 25.3
+
+          - elixir: 1.14.5
+            otp_release: 26.2
+
+          # Elixir 1.15
+
+          - elixir: 1.15.8
+            otp_release: 24.3
+
+          - elixir: 1.15.8
+            otp_release: 25.3
+
+          - elixir: 1.15.8
+            otp_release: 26.2
+
+          # Elixir 1.16
+
+          - elixir: 1.16.3
+            otp_release: 24.3
+
+          - elixir: 1.16.3
+            otp_release: 25.3
+
+          - elixir: 1.16.3
+            otp_release: 26.2
+
+          # Elixir 1.17
+
+          - elixir: 1.17.3
+            otp_release: 25.3
+
+          - elixir: 1.17.3
+            otp_release: 26.2
+
+          - elixir: 1.17.3
+            otp_release: 27.2
+
+          # Elixir 1.18
+
+          - elixir: 1.18.4
+            otp_release: 25.3
+
+          - elixir: 1.18.4
+            otp_release: 26.2
+
+          - elixir: 1.18.4
+            otp_release: 27.3
+
+          # Elixir 1.19
+
+          - elixir: 1.19.5
+            otp_release: 26.2
+
+          - elixir: 1.19.5
+            otp_release: 27.3
+
+          - elixir: 1.19.5
+            otp_release: 28.5
+
+          # Elixir 1.20
+
+          - elixir: 1.20.2
+            otp_release: 27.2
+
+          - elixir: 1.20.2
+            otp_release: 28.5
+
+          - elixir: 1.20.2
+            otp_release: 29.0
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
         elixir-version: ${{ matrix.elixir }}
         otp-version: ${{ matrix.otp_release }}
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: ${{ matrix.elixir }}-${{ matrix.otp_release }}-${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
     - name: Install dependencies
       run: mix deps.get
     - name: Run tests
       run: mix test
 
-  send_coveralls:
-    name: Send coveralls stats
-    runs-on: ubuntu-18.04
+  code_analysis:
+    name: Run code analysis
+    runs-on: ubuntu-22.04
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MIX_ENV: test
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.10.4' # Define the elixir version [required]
-        otp-version: '23.0' # Define the OTP version [required]
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: coveralls-${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        elixir-version: '1.20.2'
+        otp-version: '29.0'
     - name: Install dependencies
       run: mix deps.get
+    - name: Analyze types
+      run: mix dialyzer
     - name: Send coveralls
       run: mix coveralls.github
-
